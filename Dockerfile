@@ -1,5 +1,5 @@
 # Dockerfile optimisé pour Laravel sur Render
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Installer les dépendances système
 RUN apt-get update \
