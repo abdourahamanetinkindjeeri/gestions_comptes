@@ -18,15 +18,15 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $user = Auth::user();
-            $token = $user->createToken('API Token')->accessToken;
+        // if (Auth::attempt($request->only('email', 'password'))) {
+        //     $user = Auth::user();
+        //     $token = $user->createToken('API Token')->accessToken;
 
-            return response()->json([
-                'user' => $user,
-                'token' => $token,
-            ]);
-        }
+        //     return response()->json([
+        //         'user' => $user,
+        //         'token' => $token,
+        //     ]);
+        // }
 
         return response()->json(['error' => 'Identifiants invalides'], 401);
     }
