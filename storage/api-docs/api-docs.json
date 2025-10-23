@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8001/api",
+            "url": "http://localhost:8000/api",
             "description": "Serveur de développement"
         },
         {
@@ -43,6 +43,62 @@
                             "type": "integer",
                             "default": 10
                         }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Type de compte (cheque, epargne, courant)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "cheque",
+                                "epargne",
+                                "courant"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "statut",
+                        "in": "query",
+                        "description": "Statut du compte",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Recherche globale dans les comptes",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Champ de tri",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "id"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordre de tri (asc ou desc)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -72,384 +128,6 @@
                                         },
                                         "pagination": {
                                             "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Comptes"
-                ],
-                "summary": "Crée un nouveau compte",
-                "description": "Crée un nouveau compte bancaire",
-                "operationId": "a896aedada2e34a114a6b2bda0468e82",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "numero_compte",
-                                    "type",
-                                    "solde_initial",
-                                    "devise",
-                                    "client_id"
-                                ],
-                                "properties": {
-                                    "numero_compte": {
-                                        "type": "string",
-                                        "example": "CB001234567890"
-                                    },
-                                    "type": {
-                                        "type": "string",
-                                        "enum": [
-                                            "cheque",
-                                            "epargne",
-                                            "courant"
-                                        ],
-                                        "example": "cheque"
-                                    },
-                                    "solde_initial": {
-                                        "type": "number",
-                                        "format": "decimal",
-                                        "example": 1000
-                                    },
-                                    "devise": {
-                                        "type": "string",
-                                        "example": "FCFA"
-                                    },
-                                    "statut": {
-                                        "type": "string",
-                                        "example": "actif"
-                                    },
-                                    "client_id": {
-                                        "type": "string",
-                                        "example": "uuid-client"
-                                    },
-                                    "metadata": {
-                                        "type": "object",
-                                        "nullable": true
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Compte créé avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 201
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Compte créé avec succès"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Données invalides",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 400
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erreur de validation"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/comptes/{id}": {
-            "get": {
-                "tags": [
-                    "Comptes"
-                ],
-                "summary": "Affiche un compte spécifique",
-                "description": "Récupère les détails d'un compte par son ID",
-                "operationId": "2c0e639786c8011e547baf235252fec0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID du compte",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Compte récupéré avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Compte récupéré avec succès"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Compte introuvable",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 404
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Compte introuvable"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Comptes"
-                ],
-                "summary": "Met à jour un compte existant",
-                "description": "Met à jour les informations d'un compte existant",
-                "operationId": "10f164567e21d8fec5fc92f9da34e3fb",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID du compte",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "numero_compte": {
-                                        "type": "string",
-                                        "example": "CB001234567890"
-                                    },
-                                    "type": {
-                                        "type": "string",
-                                        "enum": [
-                                            "cheque",
-                                            "epargne",
-                                            "courant"
-                                        ],
-                                        "example": "cheque"
-                                    },
-                                    "solde_initial": {
-                                        "type": "number",
-                                        "format": "decimal",
-                                        "example": 1000
-                                    },
-                                    "devise": {
-                                        "type": "string",
-                                        "example": "FCFA"
-                                    },
-                                    "statut": {
-                                        "type": "string",
-                                        "example": "actif"
-                                    },
-                                    "client_id": {
-                                        "type": "string",
-                                        "example": "uuid-client"
-                                    },
-                                    "metadata": {
-                                        "type": "object",
-                                        "nullable": true
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Compte mis à jour avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Compte mis à jour avec succès"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Compte introuvable",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 404
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Impossible de mettre à jour le compte"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Comptes"
-                ],
-                "summary": "Supprime un compte",
-                "description": "Supprime un compte existant (soft delete)",
-                "operationId": "bfb2ad061854b9b93873c60a24618ff9",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID du compte",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Compte supprimé avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Compte supprimé avec succès"
-                                        },
-                                        "data": {
-                                            "type": "null"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Compte introuvable",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "http_code": {
-                                            "type": "integer",
-                                            "example": 404
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Impossible de supprimer le compte"
                                         }
                                     },
                                     "type": "object"
