@@ -34,12 +34,7 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-## Tests
-
-```bash
-php artisan test
-```
 
 ## Auteur
 
-Abdourahamane TINKIN DJEERI
+Abdourahamane Tinkin DIALLO
