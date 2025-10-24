@@ -1,5 +1,5 @@
 # Dockerfile optimisé pour Laravel sur Render
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Installer les dépendances système
 RUN apt-get update \
@@ -25,6 +25,12 @@ COPY . .
 
 # Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader
+
+# Générer la documentation Swagger
+RUN mkdir -p storage/api-docs \
+    && chown -R www-data:www-data storage/api-docs \
+    && chmod -R 775 storage/api-docs \
+    && php artisan l5-swagger:generate
 
 # Installer les dépendances JS et builder le front
 RUN npm install && npm run build
