@@ -28,6 +28,11 @@ RUN composer install --no-dev --optimize-autoloader \
  && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider" --tag=config --force \
  && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider" --tag=views --force
 
+ ENV L5_SWAGGER_UI_CSS=https://gestions-comptes.onrender.com/docs/asset/swagger-ui.css
+ ENV L5_SWAGGER_UI_BUNDLE_JS=https://gestions-comptes.onrender.com/docs/asset/swagger-ui-bundle.js
+ ENV L5_SWAGGER_UI_STANDALONE_PRESET_JS=https://gestions-comptes.onrender.com/docs/asset/swagger-ui-standalone-preset.js
+
+
 # Nettoyer les caches Laravel et générer Swagger
 RUN php artisan config:clear \
  && php artisan route:clear \
