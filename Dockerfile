@@ -42,7 +42,12 @@ ENV L5_SWAGGER_UI_STANDALONE_PRESET_JS=https://gestions-comptes.onrender.com/doc
 
 EXPOSE 8000
 
-CMD php artisan migrate --force \
- && php artisan config:cache \
- && php artisan route:cache \
- && php artisan serve --host=0.0.0.0 --port=8000
+
+ RUN php artisan config:clear \
+ && php artisan route:clear \
+ && php artisan view:clear \
+ && mkdir -p storage/api-docs \
+ && chown -R www-data:www-data storage/api-docs \
+ && chmod -R 775 storage/api-docs \
+ && php artisan l5-swagger:generate
+
