@@ -14,7 +14,7 @@ use App\Traits\ApiResponser;
  * )
  *
  * @OA\Server(
- *     url="http://localhost:8000/api",
+ *     url="https://gestions-comptes.onrender.com",
  *     description="Serveur de développement"
  * )
  *
