@@ -23,8 +23,9 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 COPY . .
 
-# Installer les dépendances PHP
-RUN composer install --no-dev --optimize-autoloader
+# Installer les dépendances PHP et publier les assets Swagger
+RUN composer install --no-dev --optimize-autoloader \
+ && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider"
 
 # Nettoyer les caches Laravel et générer Swagger
 RUN php artisan config:clear \
