@@ -1,4 +1,3 @@
-# Dockerfile optimisé pour Laravel sur Render
 FROM php:8.3-fpm
 
 # Installer les dépendances système
@@ -25,7 +24,9 @@ COPY . .
 
 # Installer les dépendances PHP et publier les assets Swagger
 RUN composer install --no-dev --optimize-autoloader \
- && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider" --tag=swagger-ui --force
+ && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider" --tag=swagger-ui --force \
+ && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider" --tag=config --force \
+ && php artisan vendor:publish --provider="L5Swagger\\L5SwaggerServiceProvider" --tag=views --force
 
 # Nettoyer les caches Laravel et générer Swagger
 RUN php artisan config:clear \
